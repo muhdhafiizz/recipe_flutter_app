@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856331608078",
+    "project_id": "test-signin-app",
+    "storage_bucket": "test-signin-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856331608078:android:cb9f6459439e3c1e8b9c5f",
+        "android_client_info": {
+          "package_name": "com.example.recipe_flutter_a"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5KOUsl3CU1bBEgGwk5t6VvAtkdr03ywc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
