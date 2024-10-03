@@ -40,14 +40,35 @@ class RecipeDetail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   height: 170,
-                  child: recipeModel.image == null
-                      ? const Center(
-                          child: CircleAvatar(
-                            radius: 40,
-                            backgroundImage: AssetImage("assets/image/recipe-word.webp"),
-                          ),
-                        )
-                      : Image.file(recipeModel.image!),
+                  child: recipeModel.image != null && recipeModel.image!.existsSync()
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                    child: Image.file(
+                      recipeModel.image!,
+                      width: double.infinity,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : recipeModel.imagePath != null && recipeModel.imagePath!.isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                        child: Image.asset(
+                          recipeModel.imagePath!,
+                          width: double.infinity,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                        child: Image.asset(
+                          'assets/image/recipe-word.webp', 
+                          width: double.infinity,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                 ),
                 const SizedBox(height: 10),
                 Center(
@@ -57,6 +78,32 @@ class RecipeDetail extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Type of Meals",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        recipeModel.mealType ?? "",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+               
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(10),
@@ -107,6 +154,7 @@ class RecipeDetail extends StatelessWidget {
                     ],
                   ),
                 ),
+
               ],
             ),
           ),

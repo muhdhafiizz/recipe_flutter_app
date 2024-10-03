@@ -49,6 +49,17 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                 ),
                 const SizedBox(height: 15),
                 TextField(
+                  controller: provider.mealTypeController,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    labelText: 'Meal Type',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                TextField(
                   controller: provider.ingredientsController,
                   maxLines: 3,
                   decoration: InputDecoration(
@@ -79,6 +90,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                               child: Row(
                                 children: const [
                                   Icon(Icons.camera),
+                                  SizedBox(width: 5,),
                                   Text("Take a picture"),
                                 ],
                               ),

@@ -13,6 +13,14 @@ class NewRecipeController {
     final image = await ImagePicker().pickImage(source: source);
     if (image != null) {
       recipeProvider.image = File(image.path);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Picture selected!'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
     }
   }
 

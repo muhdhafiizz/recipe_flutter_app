@@ -25,7 +25,7 @@ class SearchRecipeScreen extends StatelessWidget {
                 },
                 decoration: const InputDecoration(
                   icon: Icon(Icons.search, color: Colors.brown),
-                  hintText: "Search recipe",
+                  hintText: "Search meal type..",
                   hintStyle: TextStyle(color: Colors.brown),
                 ),
               );

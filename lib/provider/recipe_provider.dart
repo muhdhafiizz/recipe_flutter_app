@@ -13,7 +13,9 @@ class RecipeProvider extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController instructionsController = TextEditingController();
   TextEditingController ingredientsController = TextEditingController();
+  TextEditingController mealTypeController = TextEditingController();
   File? image;
+  String? imagePath;
 
   List<RecipeModel> allRecipes = [];
   List<RecipeModel> favoriteRecipes = [];
@@ -29,8 +31,10 @@ class RecipeProvider extends ChangeNotifier {
       isFavorite: false,
       name: nameController.text,
       image: image,
+      imagePath: imagePath,
       ingredients: ingredientsController.text,
-      instructions: instructionsController.text);
+      instructions: instructionsController.text,
+      mealType: mealTypeController.text);
 
     DbHelper.dbHelper.insertNewRecipe(recipeModel);
     getRecipes();

@@ -11,7 +11,7 @@ class SearchRecipeController with ChangeNotifier {
 
   void filterRecipes(String value) {
     filteredRecipes = allRecipes
-        .where((recipe) => recipe.name.toLowerCase().contains(value.toLowerCase()))
+        .where((recipe) => recipe.mealType.toLowerCase().contains(value.toLowerCase()))
         .toList();
     notifyListeners();
   }

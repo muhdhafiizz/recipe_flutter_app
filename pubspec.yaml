@@ -70,6 +70,12 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/image/recipe-word.webp
+    - assets/image/Chicken-Alfredo-above.jpg
+    - assets/image/greek-salad.webp
+    - assets/image/spaghetti-carbonara.webp
+    - assets/image/grilled-salmon.jpg
+    - assets/image/pancake.jpg
+
     
 flutter_launcher_icons:
   android: "launcher_icon"

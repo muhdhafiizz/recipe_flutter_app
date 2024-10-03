@@ -10,46 +10,36 @@ class EditRecipeController {
 
   EditRecipeController(this.provider, this.recipeModel);
 
+
+
   Future<void> pickImage(BuildContext context, ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);
     if (image != null) {
       provider.image = File(image.path);
-    }
-  }
+      provider.imagePath = null; 
 
-  Future<void> showImageSourceDialog(BuildContext context) async {
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Choose Image Source'),
-          content: const Text('Please select whether to use camera or gallery.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                pickImage(context, ImageSource.camera);
-              },
-              child: const Text('Camera'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                pickImage(context, ImageSource.gallery);
-              },
-              child: const Text('Gallery'),
-            ),
-          ],
-        );
-      },
+      ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Picture selected!'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
     );
+    }
   }
 
   void updateRecipe(BuildContext context) {
     recipeModel.name = provider.nameController.text;
-    recipeModel.image = provider.image;
     recipeModel.ingredients = provider.ingredientsController.text;
     recipeModel.instructions = provider.instructionsController.text;
+
+    if (provider.image != null) {
+      recipeModel.image = provider.image;  
+      recipeModel.imagePath = null; 
+    } else if (provider.imagePath != null) {
+      recipeModel.imagePath = provider.imagePath;  
+      recipeModel.image = null;  
+    }
 
     provider.updateRecpe(recipeModel);
     clearFields();
@@ -61,5 +51,6 @@ class EditRecipeController {
     provider.ingredientsController.clear();
     provider.instructionsController.clear();
     provider.image = null;
+    provider.imagePath = null;  
   }
 }

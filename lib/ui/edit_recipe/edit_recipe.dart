@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/models/recipe_model.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
@@ -70,38 +71,46 @@ class _EditRecipeState extends State<EditRecipe> {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  provider.image != null
-                      ? Image.file(
-                          provider.image!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        )
-                      : const Placeholder(
-                          fallbackHeight: 100,
-                          fallbackWidth: 100,
-                        ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => controller.showImageSourceDialog(context),
-                    child: const Text('Select Image', style: TextStyle(color: Colors.brown)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => controller.updateRecipe(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.brown,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  PopupMenuButton(
+                      itemBuilder: ((context) => [
+                            PopupMenuItem(
+                              onTap: () => controller.pickImage(context, ImageSource.camera),
+                              child: const Row(
+                                children:  [
+                                  Icon(Icons.camera),
+                                  SizedBox(width: 5,),
+                                  Text("Take a picture"),
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem(
+                              onTap: () => controller.pickImage(context, ImageSource.gallery),
+                              child: const Row(
+                                children:  [
+                                  Icon(Icons.image),
+                                  SizedBox(width: 5),
+                                  Text("Select from gallery"),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    ),
+                    const Text("Add a picture"),
+                  ],
                 ),
-                child: const Text('Save Recipe'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                ElevatedButton(
+                  onPressed: () => controller.updateRecipe(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.brown,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
+                  child: const Text('Save Recipe'),
+                ),
+              ]
+            ),
+          )
+        )
+      );
+    }
   }
-}
