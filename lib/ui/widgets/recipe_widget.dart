@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/models/recipe_model.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
 import 'package:recipe_flutter_app/ui/recipe_detail/recipe_detail.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class RecipeWidget extends StatelessWidget {
   final RecipeModel recipeModel;
@@ -49,14 +50,16 @@ class RecipeWidget extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       )
-                    
                     : ClipRRect(
                         borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                        child: Image.asset(
-                          'assets/image/recipe-word.webp', 
-                          width: double.infinity,
-                          height: 150,
-                          fit: BoxFit.cover,
+                        child: Skeletonizer( // Skeleton for image placeholder
+                          enabled: recipeModel.image == null,
+                          child: Image.asset(
+                            'assets/image/recipe-word.webp',
+                            width: double.infinity,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
             Padding(
@@ -68,40 +71,46 @@ class RecipeWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          recipeModel.name ?? "",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                        Skeletonizer( // Skeleton for title placeholder
+                          enabled: recipeModel.name == null || recipeModel.name!.isEmpty,
+                          child: Text(
+                            recipeModel.name ?? "",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 8,),
-                        Text(
-                          recipeModel.mealType ?? "",
-                          style: const TextStyle(
-                            fontSize: 12,
+                        Skeletonizer( // Skeleton for meal type placeholder
+                          enabled: recipeModel.mealType == null || recipeModel.mealType!.isEmpty,
+                          child: Text(
+                            recipeModel.mealType ?? "",
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
                   ),
                   InkWell(
-            onTap: () {
-              Provider.of<RecipeProvider>(context, listen: false)
-                  .updateIsFavorite(recipeModel);
-            },
-            child: recipeModel.isFavorite
-                ? const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  )
-                : const Icon(
-                    Icons.favorite_border,
-                    color: Colors.red,
+                    onTap: () {
+                      Provider.of<RecipeProvider>(context, listen: false)
+                          .updateIsFavorite(recipeModel);
+                    },
+                    child: recipeModel.isFavorite
+                        ? const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : const Icon(
+                            Icons.favorite_border,
+                            color: Colors.red,
+                          ),
                   ),
-          ),
                 ],
               ),
             ),
