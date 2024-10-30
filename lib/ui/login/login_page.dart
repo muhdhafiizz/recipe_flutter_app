@@ -52,17 +52,30 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: _loginController.emailController,
                   decoration: const InputDecoration(labelText: 'Email'),
+                  onChanged: _loginController.updateEmail,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter an email';
                     }
-                    return null;
+                  return null;
+                  },
+                ),
+                StreamBuilder<String>(
+                  stream: _loginController.emailStream,
+                  builder: (context, snapshot) {
+                    return snapshot.hasError
+                      ? Text(
+                      snapshot.error.toString(),
+                      style: TextStyle(color: Colors.red),
+                      )
+                    : SizedBox.shrink();
                   },
                 ),
                 const SizedBox(height: 20.0),
                 TextFormField(
                   controller: _loginController.passwordController,
                   obscureText: _loginController.obscureText,
+                  onChanged: _loginController.updatePassword,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     suffixIcon: IconButton(
@@ -84,6 +97,17 @@ class _LoginPageState extends State<LoginPage> {
                       return 'Password must be at least 6 characters';
                     }
                     return null;
+                  },
+                ),
+                StreamBuilder<String>(
+                  stream: _loginController.passwordStream,
+                  builder: (context, snapshot) {
+                    return snapshot.hasError
+                      ? Text(
+                      snapshot.error.toString(),
+                      style: TextStyle(color: Colors.red),
+                      )
+                    : SizedBox.shrink();
                   },
                 ),
                 const SizedBox(height: 20.0),

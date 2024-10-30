@@ -58,7 +58,6 @@ class RecipeProvider extends ChangeNotifier {
   notifyListeners();
 }
 
-
   deleteOneRecipe (RecipeModel recipeModel) {
     DbHelper.dbHelper.deleteOneRecipe(recipeModel);
     getRecipes();
