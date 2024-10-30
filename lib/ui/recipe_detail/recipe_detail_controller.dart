@@ -22,6 +22,13 @@ class RecipeDetailController {
 
   void deleteRecipe(BuildContext context, RecipeModel recipeModel) {
     recipeProvider.deleteOneRecipe(recipeModel);
+    ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Successfully deleted!'),
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.green,
+          ),
+        );
     Navigator.pop(context);
   }
 }

@@ -26,9 +26,32 @@ class RecipeDetail extends StatelessWidget {
               ),
               const SizedBox(width: 20),
               InkWell(
-                onTap: () => controller.deleteRecipe(context, recipeModel),
-                child: const Icon(Icons.delete, color: Colors.white),
-              ),
+  onTap: () => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Delete Confirmation"),
+        content: Text("Are you sure you want to delete this recipe?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              controller.deleteRecipe(context, recipeModel);
+              Navigator.of(context).pop(); // Close the dialog after deletion
+            },
+            child: Text("Delete", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      );
+    },
+  ),
+  child: const Icon(Icons.delete, color: Colors.white),
+),
             ],
           ),
           body: SingleChildScrollView(
