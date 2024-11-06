@@ -18,7 +18,8 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
   @override
   void initState() {
     super.initState();
-    controller = NewRecipeController(Provider.of<RecipeProvider>(context, listen: false));
+    controller = NewRecipeController(
+        Provider.of<RecipeProvider>(context, listen: false));
   }
 
   @override
@@ -48,15 +49,41 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                TextField(
-                  controller: provider.mealTypeController,
-                  maxLines: 3,
+                // TextField(
+                //   controller: provider.mealTypeController,
+                //   maxLines: 3,
+                //   decoration: InputDecoration(
+                //     labelText: 'Meal Type',
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(20),
+                //     ),
+                //   ),
+                // ),
+                DropdownButtonFormField<String>(
+                  value: provider.mealTypeController.text.isNotEmpty
+                      ? provider.mealTypeController.text
+                      : null,
                   decoration: InputDecoration(
                     labelText: 'Meal Type',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+                  items: ['Breakfast', 'Lunch', 'Dinner'].map((String meal) {
+                    return DropdownMenuItem<String>(
+                      value: meal,
+                      child: Text(meal),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    provider.mealTypeController.text = newValue ?? '';
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select a meal type';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 15),
                 TextField(
@@ -86,17 +113,21 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                     PopupMenuButton(
                       itemBuilder: ((context) => [
                             PopupMenuItem(
-                              onTap: () => controller.pickImage(context, ImageSource.camera),
+                              onTap: () => controller.pickImage(
+                                  context, ImageSource.camera),
                               child: Row(
                                 children: const [
                                   Icon(Icons.camera),
-                                  SizedBox(width: 5,),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text("Take a picture"),
                                 ],
                               ),
                             ),
                             PopupMenuItem(
-                              onTap: () => controller.pickImage(context, ImageSource.gallery),
+                              onTap: () => controller.pickImage(
+                                  context, ImageSource.gallery),
                               child: Row(
                                 children: const [
                                   Icon(Icons.image),
@@ -136,14 +167,20 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () => controller.saveRecipe(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
-                  child: const Text('Save Recipe'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => controller.saveRecipe(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                      ),
+                      child: const Text('Save Recipe'),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
 import 'package:recipe_flutter_app/ui/widgets/recipe_widget.dart';
+import 'package:lottie/lottie.dart';
 
 import 'favorite_page_controller.dart';
 
@@ -11,9 +12,12 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => FavoritePageController(Provider.of<RecipeProvider>(context, listen: false)),
+      create: (context) => FavoritePageController(
+          Provider.of<RecipeProvider>(context, listen: false)),
       child: Consumer<FavoritePageController>(
         builder: (BuildContext context, controller, Widget? child) {
+          final favoriteRecipes = controller.favoriteRecipes;
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.brown,
@@ -37,12 +41,34 @@ class FavoritePage extends StatelessWidget {
                 ),
               ],
             ),
-            body: ListView.builder(
-              itemCount: controller.favoriteRecipes.length,
-              itemBuilder: (context, index) {
-                return RecipeWidget(controller.favoriteRecipes[index]);
-              },
-            ),
+            body: favoriteRecipes.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          'assets/animations/no-favourite-recipe.json',
+                          width: 200,
+                          height: 200,
+                          repeat: true,
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'No favourite recipes for now',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: favoriteRecipes.length,
+                    itemBuilder: (context, index) {
+                      return RecipeWidget(favoriteRecipes[index]);
+                    },
+                  ),
           );
         },
       ),
