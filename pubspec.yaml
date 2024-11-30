@@ -46,6 +46,8 @@ dependencies:
   http: ^1.2.2
   geolocator: ^13.0.1
   lottie: ^3.1.3
+  flutter_dotenv: ^5.2.1
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,7 @@ flutter:
     - assets/animations/lottie-loading-page.json
     - assets/animations/favorite-recipe-empty.json
     - assets/animations/no-favourite-recipe.json
+    - .env
 
 flutter_launcher_icons:
   android: "launcher_icon"

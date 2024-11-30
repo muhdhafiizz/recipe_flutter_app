@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/ui/favorite_page/favorite_page.dart';
 import 'package:recipe_flutter_app/ui/home_page/home_page.dart';
 import 'package:recipe_flutter_app/ui/login/login_page.dart';
+import 'package:recipe_flutter_app/ui/nutrition_details/nutrition_details_view.dart';
 import 'package:recipe_flutter_app/ui/profile/profile_view.dart';
 import 'package:recipe_flutter_app/ui/restaurants_near_me/restaurants_near_me_view.dart';
 
@@ -79,6 +80,21 @@ class _DrawerListState extends State<DrawerList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RestaurantNearbyView()),
+              );
+            }),
+        ListTile(
+            title: Text(
+              "Nutrition Data",
+              style: TextStyle(color: Colors.white),
+            ),
+            leading: Icon(
+              Icons.emoji_food_beverage,
+              color: Colors.white,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NutritionPage()),
               );
             }),
         Divider(

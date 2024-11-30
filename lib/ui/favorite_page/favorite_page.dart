@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
+import 'package:recipe_flutter_app/ui/widgets/drawer.dart';
 import 'package:recipe_flutter_app/ui/widgets/recipe_widget.dart';
 import 'package:lottie/lottie.dart';
 
@@ -40,6 +41,10 @@ class FavoritePage extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            drawer: const Drawer(
+              backgroundColor: Colors.brown,
+              child: DrawerList(),
             ),
             body: favoriteRecipes.isEmpty
                 ? Center(

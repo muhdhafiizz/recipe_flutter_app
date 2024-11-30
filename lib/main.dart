@@ -1,13 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:recipe_flutter_app/data_repo/db_helper.dart';
 import 'package:recipe_flutter_app/ui/firebase_options.dart';
 import 'package:recipe_flutter_app/ui/home_page/home_page.dart';
 import 'package:recipe_flutter_app/ui/login/login_page.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_flutter_app/provider/recipe_provider.dart'; 
-import 'package:recipe_flutter_app/ui/widgets/splash_screen.dart'; 
+import 'package:recipe_flutter_app/provider/recipe_provider.dart';
+import 'package:recipe_flutter_app/ui/nutrition_details/nutrition_details_controller.dart';
+import 'package:recipe_flutter_app/ui/widgets/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +17,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await DbHelper.dbHelper.initDatabase();
-  
+  await dotenv.load(fileName: ".env");
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RecipeProvider()), 
+        ChangeNotifierProvider(create: (_) => RecipeProvider()),
+        ChangeNotifierProvider(create: (_) => NutritionController()),
       ],
       child: const MyApp(),
     ),
@@ -46,18 +50,18 @@ class AuthWrapper extends StatefulWidget {
 }
 
 class _AuthWrapperState extends State<AuthWrapper> {
-  bool _isLoading = true; 
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _initializeFirebase(); 
+    _initializeFirebase();
   }
 
   Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp(); 
+    await Firebase.initializeApp();
     setState(() {
-      _isLoading = false; 
+      _isLoading = false;
     });
   }
 
@@ -70,11 +74,11 @@ class _AuthWrapperState extends State<AuthWrapper> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen(); 
+            return const SplashScreen();
           } else if (snapshot.hasData) {
-            return const HomePage(); 
+            return const HomePage();
           } else {
-            return const LoginPage(); 
+            return const LoginPage();
           }
         },
       );
