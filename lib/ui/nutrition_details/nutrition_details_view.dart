@@ -6,8 +6,24 @@ import 'package:recipe_flutter_app/ui/nutrition_details/nutrition_details_contro
 import 'package:recipe_flutter_app/ui/nutrition_details/nutrition_details_model.dart';
 import 'package:recipe_flutter_app/ui/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NutritionPage extends StatelessWidget {
+  const NutritionPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => NutritionController(),
+      child: const NutritionPageContent(),
+    );
+  }
+}
+
+class NutritionPageContent extends StatelessWidget {
+  const NutritionPageContent({super.key});
+
   @override
   Widget build(BuildContext context) {
     final nutritionController = Provider.of<NutritionController>(context);
@@ -15,8 +31,8 @@ class NutritionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Nutrition Data',
-          style: TextStyle(color: Colors.white),
+          AppLocalizations.of(context)!.nutritionData,
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.brown,
       ),
@@ -33,11 +49,13 @@ class NutritionPage extends StatelessWidget {
                 nutritionController.updateIngredient(value.trim());
               },
               decoration: InputDecoration(
-                labelText: 'Enter Ingredient',
-                border: OutlineInputBorder(),
+                labelText: AppLocalizations.of(context)!.enterIngridient,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 if (nutritionController.ingredient.isNotEmpty) {
@@ -47,21 +65,21 @@ class NutritionPage extends StatelessWidget {
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please enter an ingredient.')),
+                    const SnackBar(content: Text('Please enter an ingredient.')),
                   );
                 }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 12),
               ),
               child: Text(
-                'Search Nutrition Data',
+                AppLocalizations.of(context)!.searchNutrition,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Expanded(
               child: nutritionController.isLoading
                   ? Center(
@@ -73,7 +91,7 @@ class NutritionPage extends StatelessWidget {
                     )
                   : nutritionController.nutritionData == null
                       ? Center(
-                          child: Text('No data fetched yet.'),
+                          child: Text(AppLocalizations.of(context)!.noNutritionData),
                         )
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -90,10 +108,11 @@ class NutritionPage extends StatelessWidget {
   }
 }
 
+
 class NutritionDetails extends StatelessWidget {
   final NutritionResponse data;
 
-  const NutritionDetails(this.data);
+  const NutritionDetails(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,21 +126,21 @@ class NutritionDetails extends StatelessWidget {
 
     return Expanded(
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${foodList.join(', ')}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              foodList.join(', '),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Text(
               'Calories: ${data.calories ?? 'N/A'}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Row(
               children: [
-                Text(
+                const Text(
                   'URL: ',
                   style: TextStyle(
                     fontSize: 16,
@@ -136,14 +155,14 @@ class NutritionDetails extends StatelessWidget {
                           launchUrl(uri);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Invalid URL'),
                             ),
                           );
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('URL is null'),
                           ),
                         );
@@ -151,7 +170,7 @@ class NutritionDetails extends StatelessWidget {
                     },
                     child: Text(
                       data.uri ?? 'N/A',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
@@ -169,7 +188,7 @@ class NutritionDetails extends StatelessWidget {
                 Text(
                   'CO2 Emissions Class: ${data.co2EmissionsClass ?? 'N/A'}',
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: () {
                     showDialog(
@@ -182,7 +201,7 @@ class NutritionDetails extends StatelessWidget {
                           ),
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -217,7 +236,7 @@ class NutritionDetails extends StatelessWidget {
                       },
                     );
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.help_outline,
                     color: Colors.blue,
                     size: 18,
@@ -225,12 +244,12 @@ class NutritionDetails extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text('Total CO2 Emissions: ${data.totalCO2Emissions ?? 'N/A'}'),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text('Total Weight: ${data.totalWeight ?? 'N/A'}'),
-            SizedBox(height: 8),
-            Text('Ingredients:'),
+            const SizedBox(height: 8),
+            const Text('Ingredients:'),
             if (data.ingredients != null && data.ingredients!.isNotEmpty)
               ...data.ingredients!.map((ingredient) => Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
@@ -254,7 +273,7 @@ class NutritionDetails extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('Nutrients:'),
+                                            const Text('Nutrients:'),
                                             ...parsed.nutrients!.entries.map(
                                               (entry) => Text(
                                                 '- ${entry.value.label}: ${entry.value.quantity} ${entry.value.unit}',
@@ -270,7 +289,7 @@ class NutritionDetails extends StatelessWidget {
                     ),
                   ))
             else
-              Text('No ingredients available.'),
+              const Text('No ingredients available.'),
           ],
         ),
       ),
@@ -280,7 +299,7 @@ class NutritionDetails extends StatelessWidget {
 
 extension StringExtensions on String {
   String capitalize() {
-    if (this.isEmpty) return this;
+    if (isEmpty) return this;
     return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
   }
 }

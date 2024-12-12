@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/ui/signup/signup_controller.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({Key? key}) : super(key: key);
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class SignupPage extends StatelessWidget {
 }
 
 class SignupForm extends StatelessWidget {
-  const SignupForm({Key? key}) : super(key: key);
+  const SignupForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,39 @@ class SignupForm extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Join Us',
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.brown,
+                  
+                ),
+              ),
+            ],
+          ),
+          const Flexible(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    'to ensure you dont miss out in keeping the best recipe.',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.brown,
+                    ),
+                    overflow: TextOverflow.visible,
+                    maxLines: 2,
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 20.0),
           TextField(
             controller: signupController.nameController,

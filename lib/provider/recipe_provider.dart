@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/data_repo/db_helper.dart';
-import 'package:recipe_flutter_app/ui/home_page/home_page.dart';
 import 'package:recipe_flutter_app/models/recipe_model.dart';
 
 class RecipeProvider extends ChangeNotifier {

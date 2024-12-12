@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:recipe_flutter_app/ui/home_page/home_page.dart';
 import 'package:recipe_flutter_app/models/recipe_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class DbHelper {
   late Database database;
@@ -140,7 +138,7 @@ class DbHelper {
     await database.update(
       tableName,
       {isFavoriteColumn: recipeModel.isFavorite ? 1 : 0},
-      where: '$columnId = ?', // Corrected where clause
+      where: '$columnId = ?', 
       whereArgs: [recipeModel.id],
     );
   }

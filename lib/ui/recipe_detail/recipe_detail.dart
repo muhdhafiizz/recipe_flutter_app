@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/models/recipe_model.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'recipe_detail_controller.dart';
 
@@ -30,21 +31,21 @@ class RecipeDetail extends StatelessWidget {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Delete Confirmation"),
-        content: Text("Are you sure you want to delete this recipe?"),
+        title: const Text("Delete Confirmation"),
+        content: const Text("Are you sure you want to delete this recipe?"),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(); // Close the dialog
             },
-            child: Text("Cancel"),
+            child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () {
               controller.deleteRecipe(context, recipeModel);
               Navigator.of(context).pop(); // Close the dialog after deletion
             },
-            child: Text("Delete", style: TextStyle(color: Colors.red)),
+            child: const Text("Delete", style: TextStyle(color: Colors.red)),
           ),
         ],
       );
@@ -110,9 +111,9 @@ class RecipeDetail extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Type of Meals",
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.typeOfMeals,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -136,9 +137,9 @@ class RecipeDetail extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Ingredients",
-                        style: TextStyle(
+                       Text(
+                        AppLocalizations.of(context)!.ingridients,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -161,9 +162,9 @@ class RecipeDetail extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Instructions",
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.instructions,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),

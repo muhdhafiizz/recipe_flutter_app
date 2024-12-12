@@ -8,8 +8,10 @@ import 'package:recipe_flutter_app/ui/home_page/home_page.dart';
 import 'package:recipe_flutter_app/ui/login/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
-import 'package:recipe_flutter_app/ui/nutrition_details/nutrition_details_controller.dart';
+import 'package:recipe_flutter_app/ui/profile/profile_controller.dart';
 import 'package:recipe_flutter_app/ui/widgets/splash_screen.dart';
+import 'package:recipe_flutter_app/l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +25,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => RecipeProvider()),
-        ChangeNotifierProvider(create: (_) => NutritionController()),
+        ChangeNotifierProvider(create: (_) => ProfileController()),
       ],
       child: const MyApp(),
     ),
@@ -35,53 +37,60 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileController =  Provider.of<ProfileController>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      supportedLocales: L10n.all,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      locale: profileController.locale,
       home: const AuthWrapper(),
     );
   }
 }
 
-class AuthWrapper extends StatefulWidget {
+class AuthNotifier extends ChangeNotifier {
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
+
+  AuthNotifier() {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    _isLoading = false;
+    notifyListeners();
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
   @override
-  _AuthWrapperState createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends State<AuthWrapper> {
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeFirebase();
-  }
-
-  Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp();
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const SplashScreen();
-    } else {
-      return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+    return ChangeNotifierProvider(
+      create: (_) => AuthNotifier(),
+      child: Consumer<AuthNotifier>(
+        builder: (context, authNotifier, child) {
+          if (authNotifier.isLoading) {
             return const SplashScreen();
-          } else if (snapshot.hasData) {
-            return const HomePage();
           } else {
-            return const LoginPage();
+            return StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SplashScreen();
+                } else if (snapshot.hasData) {
+                  return const HomePage();
+                } else {
+                  return const LoginPage();
+                }
+              },
+            );
           }
         },
-      );
-    }
+      ),
+    );
   }
 }

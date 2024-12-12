@@ -3,58 +3,51 @@ import 'package:provider/provider.dart';
 import 'package:recipe_flutter_app/provider/recipe_provider.dart';
 import 'package:recipe_flutter_app/ui/widgets/drawer.dart';
 import 'package:recipe_flutter_app/ui/widgets/recipe_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'home_page_controller.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
   Widget build(BuildContext context) {
-    return Consumer<RecipeProvider>(
-      builder: (context, myProvider, Widget? child) {
-        final controller = HomePageController(myProvider);
+    final recipeProvider = Provider.of<RecipeProvider>(context);
+    final controller = HomePageController(recipeProvider);
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Recipes', style: TextStyle(color: Colors.white)),
-            backgroundColor: Colors.brown,
-            actions: [
-              InkWell(
-                onTap: () => controller.navigateToSearchRecipe(context),
-                child: const Icon(Icons.search, color: Colors.white),
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.recipes, style: const TextStyle(color: Colors.white)),
+        backgroundColor: Colors.brown,
+        actions: [
+          InkWell(
+            onTap: () => controller.navigateToSearchRecipe(context),
+            child: const Icon(Icons.search, color: Colors.white),
           ),
-          drawer: const Drawer(
-            backgroundColor: Colors.brown,
-            child: DrawerList(),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => controller.navigateToNewRecipe(context),
-            backgroundColor: Colors.brown,
-            child: const Icon(Icons.add, color: Colors.white),
-          ),
-          body: GridView.builder(
-            padding: const EdgeInsets.all(10),
-            itemCount: myProvider.allRecipes.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.75,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemBuilder: (context, index) {
-              return RecipeWidget(myProvider.allRecipes[index]);
-            },
-          ),
-        );
-      },
+        ],
+      ),
+      drawer: const Drawer(
+        backgroundColor: Colors.brown,
+        child: DrawerList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => controller.navigateToNewRecipe(context),
+        backgroundColor: Colors.brown,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(10),
+        itemCount: recipeProvider.allRecipes.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.75,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemBuilder: (context, index) {
+          return RecipeWidget(recipeProvider.allRecipes[index]);
+        },
+      ),
     );
   }
 }

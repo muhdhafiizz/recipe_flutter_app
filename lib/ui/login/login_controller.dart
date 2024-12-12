@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_flutter_app/data_repo/db_helper.dart';
-import 'package:recipe_flutter_app/models/recipe_model.dart';
 import 'package:recipe_flutter_app/ui/home_page/home_page.dart';
 
 class LoginController extends ChangeNotifier {
@@ -39,7 +37,7 @@ class LoginController extends ChangeNotifier {
           password: passwordController.text.trim(),
         );
 
-        List<RecipeModel> recipes = await DbHelper.dbHelper.getAllRecipes();
+        // List<RecipeModel> recipes = await DbHelper.dbHelper.getAllRecipes();
 
         Navigator.pushReplacement(
           context,
@@ -61,6 +59,7 @@ class LoginController extends ChangeNotifier {
     notifyListeners();
   }
 
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();

@@ -12,6 +12,7 @@ class LoginPage extends StatelessWidget {
       create: (_) => LoginController(),
       child: Scaffold(
         body: Container(
+          color: Colors.brown,
           padding: const EdgeInsets.all(20),
           child: Center(
             child: Consumer<LoginController>(
@@ -26,7 +27,7 @@ class LoginPage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.restaurant_menu,
-                            color: Colors.brown,
+                            color: Colors.white,
                             size: 30,
                           ),
                           SizedBox(width: 8),
@@ -35,65 +36,117 @@ class LoginPage extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.brown,
+                              color: Colors.white,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 50),
-                      TextFormField(
-                        controller: loginController.emailController,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          errorText: loginController.emailError,
-                        ),
-                        onChanged: loginController.updateEmail,
-                      ),
-                      const SizedBox(height: 20.0),
-                      TextFormField(
-                        controller: loginController.passwordController,
-                        obscureText: loginController.obscureText,
-                        onChanged: loginController.updatePassword,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          errorText: loginController.passwordError,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              loginController.obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: loginController.toggleObscureText,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20.0),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: ElevatedButton.icon(
-                          icon: const Icon(Icons.login),
-                          label: const Text('Log In'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.white,
+                        height: 50,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Log In',
+                            style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                          onPressed: () => loginController.login(context),
+                        ],
+                      ),
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'to experience the best recipe app ever.',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.visible,
+                                maxLines: 2,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignupPage()),
-                          );
-                        },
-                        child: const Text(
-                          'Create a new account',
-                          style: TextStyle(
-                            color: Colors.brown,
-                            decoration: TextDecoration.underline,
+                      const SizedBox(height: 50),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: loginController.emailController,
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  errorText: loginController.emailError,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onChanged: loginController.updateEmail,
+                              ),
+                              const SizedBox(height: 20.0),
+                              TextFormField(
+                                controller: loginController.passwordController,
+                                obscureText: loginController.obscureText,
+                                onChanged: loginController.updatePassword,
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  errorText: loginController.passwordError,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(18)),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      loginController.obscureText
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed:
+                                        loginController.toggleObscureText,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.login),
+                                  label: const Text('Log In'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                  onPressed: () =>
+                                      loginController.login(context),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignupPage()),
+                                  );
+                                },
+                                child: const Text(
+                                  'Join us if you have not yet!',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

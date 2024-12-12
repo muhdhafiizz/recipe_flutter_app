@@ -10,6 +10,7 @@ class SignupController extends ChangeNotifier{
 
   bool obscureText = true;
 
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();

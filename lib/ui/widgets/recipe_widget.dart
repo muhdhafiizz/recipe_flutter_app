@@ -72,7 +72,7 @@ class RecipeWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Skeletonizer( // Skeleton for title placeholder
-                          enabled: recipeModel.name == null || recipeModel.name!.isEmpty,
+                          enabled: recipeModel.name.isEmpty,
                           child: Text(
                             recipeModel.name ?? "",
                             style: const TextStyle(
@@ -84,7 +84,7 @@ class RecipeWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 8,),
                         Skeletonizer( // Skeleton for meal type placeholder
-                          enabled: recipeModel.mealType == null || recipeModel.mealType!.isEmpty,
+                          enabled: recipeModel.mealType.isEmpty,
                           child: Text(
                             recipeModel.mealType ?? "",
                             style: const TextStyle(

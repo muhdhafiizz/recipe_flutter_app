@@ -49,16 +49,6 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                // TextField(
-                //   controller: provider.mealTypeController,
-                //   maxLines: 3,
-                //   decoration: InputDecoration(
-                //     labelText: 'Meal Type',
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(20),
-                //     ),
-                //   ),
-                // ),
                 DropdownButtonFormField<String>(
                   value: provider.mealTypeController.text.isNotEmpty
                       ? provider.mealTypeController.text
@@ -115,8 +105,8 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                             PopupMenuItem(
                               onTap: () => controller.pickImage(
                                   context, ImageSource.camera),
-                              child: Row(
-                                children: const [
+                              child: const Row(
+                                children: [
                                   Icon(Icons.camera),
                                   SizedBox(
                                     width: 5,
@@ -128,8 +118,8 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                             PopupMenuItem(
                               onTap: () => controller.pickImage(
                                   context, ImageSource.gallery),
-                              child: Row(
-                                children: const [
+                              child: const Row(
+                                children: [
                                   Icon(Icons.image),
                                   SizedBox(width: 5),
                                   Text("Select from gallery"),
