@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Flexible(
+                      const Flexible(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
