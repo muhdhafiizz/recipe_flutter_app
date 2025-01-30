@@ -36,7 +36,7 @@ class _DrawerListState extends State<DrawerList> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfileView()),
+                MaterialPageRoute(builder: (context) => const ProfileView()),
               );
             }),
         ListTile(

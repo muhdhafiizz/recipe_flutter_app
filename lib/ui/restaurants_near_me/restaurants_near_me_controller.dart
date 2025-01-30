@@ -20,7 +20,7 @@ class RestaurantsNearMeController with ChangeNotifier {
         throw Exception('Failed to load restaurants');
       }
     } catch (e) {
-      debugPrint('Error fetching restaurants: $e');
+      print('Error fetching restaurants: $e');
       return [];
     }
   }
